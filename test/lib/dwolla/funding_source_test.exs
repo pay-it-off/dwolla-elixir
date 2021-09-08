@@ -1,5 +1,4 @@
 defmodule Dwolla.FundingSourceTest do
-
   use ExUnit.Case
 
   import Dwolla.Factory
@@ -14,13 +13,13 @@ defmodule Dwolla.FundingSourceTest do
   end
 
   describe "funding-source" do
-
     test "get/2 requests GET and returns Dwolla.FundingSource", %{bypass: bypass} do
       body = http_response_body(:funding_source, :get)
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert "GET" == conn.method
         Conn.resp(conn, 200, body)
-      end
+      end)
 
       assert {:ok, resp} = FundingSource.get("token", "id")
       assert resp.__struct__ == Dwolla.FundingSource
@@ -36,10 +35,11 @@ defmodule Dwolla.FundingSourceTest do
 
     test "update/3 requests POST and returns Dwolla.FundingSource", %{bypass: bypass} do
       body = http_response_body(:funding_source, :get)
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert "POST" == conn.method
         Conn.resp(conn, 200, body)
-      end
+      end)
 
       assert {:ok, resp} = FundingSource.update_name("token", "id", "My Checking")
       assert resp.__struct__ == Dwolla.FundingSource
@@ -47,10 +47,11 @@ defmodule Dwolla.FundingSourceTest do
 
     test "remove/2 requests POST and returns Dwolla.FundingSource", %{bypass: bypass} do
       body = http_response_body(:funding_source, :get)
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert "POST" == conn.method
         Conn.resp(conn, 200, body)
-      end
+      end)
 
       assert {:ok, resp} = FundingSource.remove("token", "id")
       assert resp.__struct__ == Dwolla.FundingSource
@@ -58,14 +59,14 @@ defmodule Dwolla.FundingSourceTest do
 
     test "balance/2 requests GET and returns Dwolla.FundingSource.Balance", %{bypass: bypass} do
       body = http_response_body(:balance, :get)
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert "GET" == conn.method
         Conn.resp(conn, 200, body)
-      end
+      end)
 
       assert {:ok, resp} = FundingSource.balance("token", "id")
       assert resp.__struct__ == Dwolla.FundingSource.Balance
     end
-
   end
 end

@@ -1,5 +1,4 @@
 defmodule Dwolla.WebhookSubscriptionTest do
-
   use ExUnit.Case
 
   import Dwolla.Factory
@@ -14,15 +13,15 @@ defmodule Dwolla.WebhookSubscriptionTest do
   end
 
   describe "webhook-subscriptions" do
-
     test "create/2 requests POST and returns a new id", %{bypass: bypass} do
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect(bypass, fn conn ->
         assert "POST" == conn.method
         {k, v} = http_response_header(:webhook_subscription)
+
         conn
         |> Conn.put_resp_header(k, v)
         |> Conn.resp(201, "")
-      end
+      end)
 
       params = %{
         url: "https://twopence.co/api/dwolla",
@@ -35,10 +34,11 @@ defmodule Dwolla.WebhookSubscriptionTest do
 
     test "get/2 requests GET and returns Dwolla.WebhookSubscription", %{bypass: bypass} do
       body = http_response_body(:webhook_subscription, :get)
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert "GET" == conn.method
         Conn.resp(conn, 200, body)
-      end
+      end)
 
       assert {:ok, resp} = WebhookSubscription.get("token", "id")
       assert resp.__struct__ == Dwolla.WebhookSubscription
@@ -50,10 +50,11 @@ defmodule Dwolla.WebhookSubscriptionTest do
 
     test "pause/2 requests POST and returns Dwolla.WebhookSubscription", %{bypass: bypass} do
       body = http_response_body(:webhook_subscription, :get)
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert "POST" == conn.method
         Conn.resp(conn, 200, body)
-      end
+      end)
 
       assert {:ok, resp} = WebhookSubscription.pause("token", "id")
       assert resp.__struct__ == Dwolla.WebhookSubscription
@@ -61,10 +62,11 @@ defmodule Dwolla.WebhookSubscriptionTest do
 
     test "resume/2 requests POST and returns Dwolla.WebhookSubscription", %{bypass: bypass} do
       body = http_response_body(:webhook_subscription, :get)
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert "POST" == conn.method
         Conn.resp(conn, 200, body)
-      end
+      end)
 
       assert {:ok, resp} = WebhookSubscription.resume("token", "id")
       assert resp.__struct__ == Dwolla.WebhookSubscription
@@ -72,10 +74,11 @@ defmodule Dwolla.WebhookSubscriptionTest do
 
     test "list/1 requests GET and returns list of Dwolla.WebhookSubscription", %{bypass: bypass} do
       body = http_response_body(:webhook_subscription, :list)
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert "GET" == conn.method
         Conn.resp(conn, 200, body)
-      end
+      end)
 
       assert {:ok, resp} = WebhookSubscription.list("token")
       assert Enum.count(resp) == 1
@@ -85,15 +88,14 @@ defmodule Dwolla.WebhookSubscriptionTest do
 
     test "delete/2 requests DELETE and returns Dwolla.WebhookSubscription", %{bypass: bypass} do
       body = http_response_body(:webhook_subscription, :get)
-      Bypass.expect bypass, fn conn ->
+
+      Bypass.expect(bypass, fn conn ->
         assert "DELETE" == conn.method
         Conn.resp(conn, 200, body)
-      end
+      end)
 
       assert {:ok, resp} = WebhookSubscription.delete("token", "id")
       assert resp.__struct__ == Dwolla.WebhookSubscription
     end
-
   end
-
 end
