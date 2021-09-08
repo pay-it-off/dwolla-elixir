@@ -31,9 +31,13 @@ defmodule Dwolla.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 1.5"},
-      {:poison, "~> 4.0"},
+      {:poison, "~> 5.0"},
       {:recase, "~> 0.6"},
-      {:bypass, "~> 1.0", only: [:test]},
+      # Switch the following back to versions after 2.1.0:
+      {:bypass,
+       github: "PSPDFKit-labs/bypass",
+       ref: "64365047ea58d2a45eed43b44b186a09d726f3aa",
+       only: [:test]},
       {:credo, "~> 1.4", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.13", only: [:test]},
       {:ex_doc, "~> 0.22", only: [:dev], runtime: false}
