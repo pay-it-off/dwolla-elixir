@@ -170,6 +170,13 @@ defmodule Dwolla.Utils do
     Enum.map(documents, &map_body(&1, schema))
   end
 
+  defp map_body(
+         %{"_embedded" => %{"business-classifications" => business_classifications}},
+         schema
+       ) do
+    Enum.map(business_classifications, &map_body(&1, schema))
+  end
+
   defp map_body(body, :customer) do
     body
     |> to_snake_case()
@@ -267,6 +274,31 @@ defmodule Dwolla.Utils do
     body
     |> to_snake_case()
     |> Poison.Decode.transform(%{as: %Dwolla.Document{}})
+  end
+
+  defp map_body(body, :business_classification) do
+    business_classification =
+      body
+      |> to_snake_case()
+      |> Poison.Decode.transform(%{as: %Dwolla.BusinessClassification{}})
+
+    industry_classifications =
+      Enum.map(
+        get_in(body, ["_embedded", "industry-classifications"]),
+        &map_body(&1, :industry_classification)
+      )
+
+    Map.put(
+      business_classification,
+      :industry_classifications,
+      industry_classifications
+    )
+  end
+
+  defp map_body(body, :industry_classification) do
+    body
+    |> to_snake_case()
+    |> Poison.Decode.transform(%{as: %Dwolla.BusinessClassification.IndustryClassification{}})
   end
 
   defp get_transfer_source_from_body(%{"_links" => %{"source" => %{"href" => url}}} = _body) do

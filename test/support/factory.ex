@@ -93,6 +93,14 @@ defmodule Dwolla.Factory do
     "{\"correlationId\":\"9ece9660-aa34-41eb-80d7-0125d53b45e8\",\"status\":\"pending\",\"id\":\"55bdfc3a-9568-4a67-92b3-867fde741a46\",\"created\":\"2018-03-29T17:43:35.692Z\",\"billedFor\":\"Biller Name\",\"_links\":{\"type\":\"application/vnd.dwolla.v1.hal+json\",\"transfers\":{\"href\":\"https://api-sandbox.dwolla.com/transfers/fd561bb4-7833-e811-8106-0a595ef38714\"},\"self\":{\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"bill-payment\",\"href\":\"https://api-sandbox.dwolla.com/bill-payments/55bdfc3a-9568-4a67-92b3-867fde741a46\"},\"resource-type\":\"transfer\"}}"
   end
 
+  def http_response_body(:business_classification, :list) do
+    "{\"total\":1,\"_links\":{},\"_embedded\":{\"business-classifications\":[#{http_response_body(:business_classification, :get)}]}}"
+  end
+
+  def http_response_body(:business_classification, :get) do
+    "{\"name\":\"Food retail and service\",\"id\":\"9ed3f669-7d6f-11e3-b545-5404a6144203\",\"_links\":{\"self\":{\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"business-classification\",\"href\":\"https://api-sandbox.dwolla.com/business-classifications/9ed3f669-7d6f-11e3-b545-5404a6144203\"}},\"_embedded\":{\"industry-classifications\":[{\"name\":\"Gourmet foods\",\"id\":\"9ed3f671-7d6f-11e3-803c-5404a6144203\"},{\"name\":\"Distilleries\",\"id\":\"9ed3f66c-7d6f-11e3-86ae-5404a6144203\"},{\"name\":\"Breweries\",\"id\":\"9ed3f66a-7d6f-11e3-8acd-5404a6144203\"},{\"name\":\"Alcoholic beverage drinking places\",\"id\":\"9ed3f66d-7d6f-11e3-9101-5404a6144203\"},{\"name\":\"Beer, wine, and liquor store\",\"id\":\"9ed3f66e-7d6f-11e3-9480-5404a6144203\"},{\"name\":\"Wineries\",\"id\":\"9ed3f66b-7d6f-11e3-95ac-5404a6144203\"},{\"name\":\"Tobacco\",\"id\":\"9ed3f674-7d6f-11e3-9619-5404a6144203\"},{\"name\":\"Restaurant\",\"id\":\"9ed3f673-7d6f-11e3-adb1-5404a6144203\"},{\"name\":\"Supplement store\",\"id\":\"9ed3f676-7d6f-11e3-af8e-5404a6144203\"},{\"name\":\"Pharmacy and drugstore\",\"id\":\"9ed3f675-7d6f-11e3-afad-5404a6144203\"},{\"name\":\"Coffee and tea\",\"id\":\"9ed3f670-7d6f-11e3-b1ce-5404a6144203\"},{\"name\":\"Catering services\",\"id\":\"9ed3f66f-7d6f-11e3-b1df-5404a6144203\"},{\"name\":\"Specialty and miscellaneous food store\",\"id\":\"9ed3f672-7d6f-11e3-b67a-5404a6144203\"}]}}"
+  end
+
   def http_response_header(:customer) do
     {"Location", "https://api-sandbox.dwolla.com/customers/b2cf497a-b315-497e-95b7-d1238288f8cb"}
   end
