@@ -15,12 +15,14 @@ defmodule DwollaTest do
     end
 
     test "get_cred/0 raises when client_id is missing" do
+      System.delete_env("DWOLLA_CLIENT_ID")
       Application.put_env(:dwolla, :client_id, nil)
       assert_raise Dwolla.MissingClientIdError, fn -> Dwolla.get_cred() end
       cleanup_config()
     end
 
     test "get_cred/0 raises when secret is missing" do
+      System.delete_env("DWOLLA_CLIENT_SECRET")
       Application.put_env(:dwolla, :client_secret, nil)
       assert_raise Dwolla.MissingClientSecretError, fn -> Dwolla.get_cred() end
       cleanup_config()

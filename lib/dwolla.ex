@@ -123,7 +123,9 @@ defmodule Dwolla do
   end
 
   defp require_root_uri do
-    case Application.get_env(:dwolla, :root_uri) || :not_found do
+    case System.get_env("DWOLLA_ROOT_URI") ||
+           Application.get_env(:dwolla, :root_uri) ||
+           :not_found do
       :not_found -> raise MissingRootUriError
       value -> value
     end
@@ -134,10 +136,14 @@ defmodule Dwolla do
   end
 
   defp get_client_id do
-    Application.get_env(:dwolla, :client_id) || :not_found
+    System.get_env("DWOLLA_CLIENT_ID") ||
+      Application.get_env(:dwolla, :client_id) ||
+      :not_found
   end
 
   defp get_client_secret do
-    Application.get_env(:dwolla, :client_secret) || :not_found
+    System.get_env("DWOLLA_CLIENT_SECRET") ||
+      Application.get_env(:dwolla, :client_secret) ||
+      :not_found
   end
 end
