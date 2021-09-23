@@ -22,7 +22,7 @@ defmodule Dwolla.Transfer do
           created: String.t(),
           # "pending" | "processed" | "cancelled" | "failed" | "reclaimed"
           status: String.t(),
-          amount: Dwolla.Transfer.Amount.t(),
+          amount: Dwolla.Amount.t(),
           metadata: Dwolla.Transfer.Metadata.t(),
           source_resource: String.t(),
           source_resource_id: String.t(),
@@ -39,15 +39,6 @@ defmodule Dwolla.Transfer do
   @type location :: %{id: String.t()}
 
   @endpoint "transfers"
-
-  defmodule Amount do
-    @moduledoc """
-    Dwolla Transfer Amount data structure.
-    """
-
-    defstruct value: nil, currency: nil
-    @type t :: %__MODULE__{value: String.t(), currency: String.t()}
-  end
 
   defmodule Metadata do
     @moduledoc """

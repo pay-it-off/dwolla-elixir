@@ -195,7 +195,7 @@ defmodule Dwolla.Utils do
       |> to_snake_case()
       |> Poison.Decode.transform(%{
         as: %Dwolla.Transfer{
-          amount: %Dwolla.Transfer.Amount{},
+          amount: %Dwolla.Amount{},
           metadata: %Dwolla.Transfer.Metadata{}
         }
       })
@@ -212,6 +212,26 @@ defmodule Dwolla.Utils do
     |> Map.put(:dest_resource_id, dest_resource_id)
     |> Map.put(:source_funding_source_id, source_funding_source_id)
     |> Map.put(:can_cancel, can_cancel)
+  end
+
+  defp map_body(body, :mass_payment) do
+    mass_payment =
+      body
+      |> to_snake_case()
+      |> Poison.Decode.transform(%{
+        as: %Dwolla.MassPayment{}
+      })
+
+    funding_transfer_id = get_mass_payment_funding_transfer_from_body(body)
+    source_funding_source_id = get_mass_payment_funding_source_from_body(body)
+
+    mass_payment
+    |> Map.put(:funding_transfer_id, funding_transfer_id)
+    |> Map.put(:source_funding_source_id, source_funding_source_id)
+  end
+
+  defp map_body(%{"_embedded" => %{"items" => items}}, :mass_payment_items) do
+    Enum.map(items, &map_item/1)
   end
 
   defp map_body(body, :event) do
@@ -301,6 +321,31 @@ defmodule Dwolla.Utils do
     |> Poison.Decode.transform(%{as: %Dwolla.BusinessClassification.IndustryClassification{}})
   end
 
+  def map_item(body) do
+    item =
+      body
+      |> to_snake_case()
+      |> Poison.Decode.transform(%{as: %Dwolla.MassPayment.Item{}})
+
+    [dest_resource, dest_resource_id] = get_transfer_destination_from_body(body)
+    transfer_id = get_mass_payment_item_transfer_from_body(body)
+
+    with_errors =
+      case item.status do
+        "failed" ->
+          errors = format_error(body)
+          Map.put(item, :errors, errors)
+
+        _success_or_pending ->
+          item
+      end
+
+    with_errors
+    |> Map.put(:dest_resource, dest_resource)
+    |> Map.put(:dest_resource_id, dest_resource_id)
+    |> Map.put(:transfer_id, transfer_id)
+  end
+
   defp get_transfer_source_from_body(%{"_links" => %{"source" => %{"href" => url}}} = _body) do
     url
     |> String.split("/")
@@ -324,6 +369,42 @@ defmodule Dwolla.Utils do
   end
 
   defp get_transfer_source_funding_source_from_body(_) do
+    nil
+  end
+
+  def get_mass_payment_funding_source_from_body(
+        %{"_links" => %{"source" => %{"href" => url}}} = _body
+      ) do
+    url
+    |> String.split("/")
+    |> List.last()
+  end
+
+  def get_mass_payment_funding_source_from_body(_) do
+    nil
+  end
+
+  def get_mass_payment_funding_transfer_from_body(
+        %{"_links" => %{"funding-transfer" => %{"href" => url}}} = _body
+      ) do
+    url
+    |> String.split("/")
+    |> List.last()
+  end
+
+  def get_mass_payment_funding_transfer_from_body(_) do
+    nil
+  end
+
+  def get_mass_payment_item_transfer_from_body(
+        %{"_links" => %{"transfer" => %{"href" => url}}} = _body
+      ) do
+    url
+    |> String.split("/")
+    |> List.last()
+  end
+
+  def get_mass_payment_item_transfer_from_body(_) do
     nil
   end
 
