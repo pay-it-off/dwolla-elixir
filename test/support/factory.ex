@@ -65,6 +65,14 @@ defmodule Dwolla.Factory do
     "{\"_links\": {\"self\": {\"href\": \"https://api-sandbox.dwolla.com/transfers/E6D9A950-AC9E-E511-80DC-0AA34A9B2388/failure\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"failure\"}},\"code\":\"R1\",\"description\":\"Insufficient Funds\"}"
   end
 
+  def http_response_body(:mass_payment, :get) do
+    "{\"_links\": {\"funding-transfer\": {\"href\": \"https://api-sandbox.dwolla.com/transfers/f24b8135-e21b-ec11-8138-fd945f81a1fa\", \"resource-type\": \"transfer\", \"type\": \"application/vnd.dwolla.v1.hal+json\"}, \"items\": {\"href\": \"https://api-sandbox.dwolla.com/mass-payments/4f4edcdc-49c2-41ca-a71c-adab014e98b9/items\", \"resource-type\": \"mass-payment-item\", \"type\": \"application/vnd.dwolla.v1.hal+json\"}, \"self\": {\"href\": \"https://api-sandbox.dwolla.com/mass-payments/4f4edcdc-49c2-41ca-a71c-adab014e98b9\", \"resource-type\": \"mass-payment\", \"type\": \"application/vnd.dwolla.v1.hal+json\"}, \"source\": {\"href\": \"https://api-sandbox.dwolla.com/funding-sources/e7bd5db2-f290-47c8-a3e1-c976af9146d7\", \"resource-type\": \"funding-source\", \"type\": \"application/vnd.dwolla.v1.hal+json\"}}, \"correlationId\": \"3e17e4ad-4136-2fd3-a45d-adaa015d494c\", \"created\": \"2021-09-22T20:18:17.000Z\", \"id\": \"4f4edcdc-49c2-41ca-a71c-adab014e98b9\", \"metadata\": {\"batch1\": \"batch1\"}, \"status\": \"complete\", \"total\": {\"currency\": \"USD\", \"value\": \"1.00\"}, \"totalFees\": {\"currency\": \"USD\", \"value\": \"0.00\"}}"
+  end
+
+  def http_response_body(:mass_payment_items, :get) do
+    "{\"_embedded\": {\"items\": [{\"_embedded\": {\"errors\": [{\"_links\": {}, \"code\": \"Invalid\", \"message\": \"Receiver cannot be the owner of the source funding source.\", \"path\": \"/items/destination/href\"}]}, \"_links\": {\"destination\": {\"href\": \"https://api-sandbox.dwolla.com/accounts/b010e278-3831-4d09-91b0-067e6c56da72\", \"resource-type\": \"account\", \"type\": \"application/vnd.dwolla.v1.hal+json\"}, \"mass-payment\": {\"href\": \"https://api-sandbox.dwolla.com/mass-payments/4f4edcdc-49c2-41ca-a71c-adab014e98b9\", \"resource-type\": \"mass-payment\", \"type\": \"application/vnd.dwolla.v1.hal+json\"}, \"self\": {\"href\": \"https://api-sandbox.dwolla.com/mass-payment-items/61bfea12-79ba-4aeb-9a9b-4d199b48de2b\", \"resource-type\": \"mass-payment-item\", \"type\": \"application/vnd.dwolla.v1.hal+json\"}}, \"amount\": {\"currency\": \"USD\", \"value\": \"1.00\"}, \"created\": \"2021-09-22T20:18:17.000Z\", \"id\": \"61bfea12-79ba-4aeb-9a9b-4d199b48de2b\", \"metadata\": {\"batch1\": \"batch1\"}, \"status\": \"failed\"}]}, \"_links\": {\"first\": {\"href\": \"https://api-sandbox.dwolla.com/mass-payments/4f4edcdc-49c2-41ca-a71c-adab014e98b9/items?&limit=25&offset=0\", \"resource-type\": \"mass-payment-item\", \"type\": \"application/vnd.dwolla.v1.hal+json\"}, \"last\": {\"href\": \"https://api-sandbox.dwolla.com/mass-payments/4f4edcdc-49c2-41ca-a71c-adab014e98b9/items?&limit=25&offset=0\", \"resource-type\": \"mass-payment-item\",\"type\": \"application/vnd.dwolla.v1.hal+json\"}, \"self\": {\"href\": \"https://api-sandbox.dwolla.com/mass-payments/4f4edcdc-49c2-41ca-a71c-adab014e98b9/items\", \"resource-type\": \"mass-payment-item\", \"type\": \"application/vnd.dwolla.v1.hal+json\"}}, \"total\": 1}"
+  end
+
   def http_response_body(:event, :list) do
     "{\"_links\":{\"self\":{\"href\":\"https://api-sandbox.dwolla.com/events\"},\"first\":{\"href\":\"https://api-sandbox.dwolla.com/events?limit=25&offset=0\"},\"last\":{\"href\":\"https://api-sandbox.dwolla.com/events?limit=25&offset=150\"},\"next\":{\"href\":\"https://api-sandbox.dwolla.com/events?limit=25&offset=25\"}},\"_embedded\":{\"events\":[{\"_links\":{\"self\":{\"href\":\"https://api-sandbox.dwolla.com/events/78e57644-56e4-4da2-b743-059479f2e80f\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"event\"},\"resource\":{\"href\":\"https://api-sandbox.dwolla.com/transfers/47CFDDB4-1E74-E511-80DB-0AA34A9B2388\"},\"account\":{\"href\":\"https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b\"}},\"id\":\"78e57644-56e4-4da2-b743-059479f2e80f\",\"created\":\"2015-10-16T15:58:18.000Z\",\"topic\":\"bank_transfer_created\",\"resourceId\":\"47CFDDB4-1E74-E511-80DB-0AA34A9B2388\"},{\"_links\":{\"self\":{\"href\":\"https://api-sandbox.dwolla.com/events/f8e70f48-b7ff-47d0-9d3d-62a099363a76\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"event\"},\"resource\":{\"href\":\"https://api-sandbox.dwolla.com/transfers/48CFDDB4-1E74-E511-80DB-0AA34A9B2388\"},\"account\":{\"href\":\"https://api-sandbox.dwolla.com/accounts/ca32853c-48fa-40be-ae75-77b37504581b\"}},\"id\":\"f8e70f48-b7ff-47d0-9d3d-62a099363a76\",\"created\":\"2015-10-16T15:58:15.000Z\",\"topic\":\"transfer_created\",\"resourceId\":\"48CFDDB4-1E74-E511-80DB-0AA34A9B2388\"}]},\"total\": 2}"
   end
@@ -112,6 +120,11 @@ defmodule Dwolla.Factory do
 
   def http_response_header(:transfer) do
     {"Location", "https://api-sandbox.dwolla.com/transfers/494b6269-d909-e711-80ee-0aa34a9b2388"}
+  end
+
+  def http_response_header(:mass_payment) do
+    {"Location",
+     "https://api-sandbox.dwolla.com/mass-payments/4f4edcdc-49c2-41ca-a71c-adab014e98b9"}
   end
 
   def http_response_header(:webhook_subscription) do
