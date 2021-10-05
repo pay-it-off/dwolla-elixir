@@ -38,7 +38,7 @@ defmodule Dwolla.Customer do
         }
   @type token :: String.t()
   @type id :: String.t()
-  @type params :: %{required(atom) => String.t() | integer}
+  @type params :: %{required(atom) => String.t() | integer() | map()}
   @type error :: HTTPoison.Error.t() | Dwolla.Errors.t() | atom | tuple
   @type location :: %{id: String.t()}
 
