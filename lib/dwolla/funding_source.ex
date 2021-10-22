@@ -88,4 +88,38 @@ defmodule Dwolla.FundingSource do
     Dwolla.make_request_with_token(:get, endpoint, token)
     |> Utils.handle_resp(:balance)
   end
+
+  @doc """
+  Sends micro-deposits to the account to start verification.
+  """
+  @spec initiate_micro_deposits(token, id) :: {:ok, id} | {:error, error}
+  def initiate_micro_deposits(token, id) do
+    endpoint = @endpoint <> "/#{id}/micro-deposits"
+
+    Dwolla.make_request_with_token(:post, endpoint, token)
+    |> Utils.handle_resp(:micro_deposits)
+  end
+
+  @doc """
+  Submits the received micro-deposit amounts to complete verification.
+  """
+  @spec verify_micro_deposits(token, id, String.t(), String.t(), String.t()) ::
+          {:ok, id} | {:error, error}
+  def verify_micro_deposits(token, id, amount1, amount2, currency \\ "USD") do
+    endpoint = @endpoint <> "/#{id}/micro-deposits"
+
+    params = %{
+      amount1: %{
+        value: amount1,
+        currency: currency
+      },
+      amount2: %{
+        value: amount2,
+        currency: currency
+      }
+    }
+
+    Dwolla.make_request_with_token(:post, endpoint, token, params)
+    |> Utils.handle_resp(:micro_deposits)
+  end
 end
