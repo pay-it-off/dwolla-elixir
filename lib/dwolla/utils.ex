@@ -284,6 +284,10 @@ defmodule Dwolla.Utils do
     |> Poison.Decode.transform(%{as: %Dwolla.FundingSource.Balance{}})
   end
 
+  defp map_body(body, :micro_deposits) do
+    %{id: get_id_from_body(body)}
+  end
+
   defp map_body(body, :token) do
     body
     |> to_snake_case()
@@ -408,6 +412,13 @@ defmodule Dwolla.Utils do
     nil
   end
 
+  defp get_id_from_body(%{"_links" => %{"self" => %{"href" => url}}} = _body) do
+    url
+    |> String.split("/")
+    |> Enum.take(-2)
+    |> List.first()
+  end
+
   defp get_resource_from_body(%{"_links" => %{"resource" => %{"href" => url}}} = _body) do
     url
     |> String.split("/")
@@ -426,7 +437,12 @@ defmodule Dwolla.Utils do
   end
 
   defp extract_id_from_resource({"Location", resource}) do
-    id = resource |> String.split("/") |> List.last()
+    id =
+      case resource |> String.split("/") |> Enum.reverse() do
+        ["micro-deposits", id | _rest] -> id
+        [id | _rest] -> id
+      end
+
     %{id: id}
   end
 

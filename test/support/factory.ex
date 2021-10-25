@@ -57,6 +57,10 @@ defmodule Dwolla.Factory do
     "{\"_links\":{\"self\":{\"href\":\"https://api-sandbox.dwolla.com/funding-sources/c18945d3-101e-4aee-8eb4-f33887222935/balance\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"balance\"},\"funding-source\":{\"href\":\"https://api-sandbox.dwolla.com/funding-sources/c18945d3-101e-4aee-8eb4-f33887222935\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"funding-source\"}},\"balance\":{\"value\":\"0.00\",\"currency\":\"USD\"},\"lastUpdated\":\"2017-04-03T21:41:10.283Z\"}"
   end
 
+  def http_response_body(:verify_micro_deposits, :post) do
+    "{\"_links\": {\"self\": {\"href\": \"https://api-sandbox.dwolla.com/funding-sources/37be35e6-664a-452d-aec2-8fb83b728d7f/micro-deposits\", \"resource-type\": \"micro-deposits\", \"type\": \"application/vnd.dwolla.v1.hal+json\"}}}"
+  end
+
   def http_response_body(:transfer, :get) do
     "{\"_links\":{\"cancel\":{\"href\":\"https://api-sandbox.dwolla.com/transfers/8f669079-b036-e611-80e3-0aa34a9b2388\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"transfer\"},\"source\":{\"href\":\"https://api-sandbox.dwolla.com/accounts/fc81fee0-1520-4949-bc2d-73e4e11fddd9\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"account\"},\"funding-transfer\":{\"href\":\"https://api-sandbox.dwolla.com/transfers/8e669079-b036-e611-80e3-0aa34a9b2388\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"transfer\"},\"self\":{\"href\":\"https://api-sandbox.dwolla.com/transfers/8f669079-b036-e611-80e3-0aa34a9b2388\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"transfer\"},\"source-funding-source\":{\"href\":\"https://api-sandbox.dwolla.com/funding-sources/70c99528-285d-4de5-9ece-6d9b8f5cb1a4\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"funding-source\"},\"destination\":{\"href\":\"https://api-sandbox.dwolla.com/customers/df1eb2aa-3d75-48a1-b882-425b579a85dc\",\"type\":\"application/vnd.dwolla.v1.hal+json\",\"resource-type\":\"customer\"}},\"id\":\"8f669079-b036-e611-80e3-0aa34a9b2388\",\"status\":\"pending\",\"amount\":{\"value\":\"55.00\",\"currency\":\"usd\"},\"created\":\"2016-06-20T06:30:27.243Z\",\"metadata\":{\"notes\":\"First test transfer!\",\"customerId\":\"1234\"}}"
   end
@@ -135,5 +139,10 @@ defmodule Dwolla.Factory do
   def http_response_header(:webhook) do
     {"Location",
      "https://api-sandbox.dwolla.com/webhooks/9ece9660-aa34-41eb-80d7-0125d53b45e8/retries/5aa27a0f-cf99-418d-a3ee-67c0ff99a494"}
+  end
+
+  def http_response_header(:initiate_micro_deposits) do
+    {"Location",
+     "https://api-sandbox.dwolla.com/funding-sources/37be35e6-664a-452d-aec2-8fb83b728d7f/micro-deposits"}
   end
 end

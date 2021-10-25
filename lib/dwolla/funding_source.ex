@@ -92,7 +92,7 @@ defmodule Dwolla.FundingSource do
   @doc """
   Sends micro-deposits to the account to start verification.
   """
-  @spec initiate_micro_deposits(token, id) :: {:ok, id} | {:error, error}
+  @spec initiate_micro_deposits(token, id) :: {:ok, %{id: id}} | {:error, error}
   def initiate_micro_deposits(token, id) do
     endpoint = @endpoint <> "/#{id}/micro-deposits"
 
@@ -104,7 +104,7 @@ defmodule Dwolla.FundingSource do
   Submits the received micro-deposit amounts to complete verification.
   """
   @spec verify_micro_deposits(token, id, String.t(), String.t(), String.t()) ::
-          {:ok, id} | {:error, error}
+          {:ok, %{id: id}} | {:error, error}
   def verify_micro_deposits(token, id, amount1, amount2, currency \\ "USD") do
     endpoint = @endpoint <> "/#{id}/micro-deposits"
 
