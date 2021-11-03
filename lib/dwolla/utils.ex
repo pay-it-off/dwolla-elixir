@@ -177,6 +177,10 @@ defmodule Dwolla.Utils do
     Enum.map(business_classifications, &map_body(&1, schema))
   end
 
+  defp map_body(%{"_embedded" => %{"beneficial-owners" => beneficial_owners}}, schema) do
+    Enum.map(beneficial_owners, &map_body(&1, schema))
+  end
+
   defp map_body(body, :customer) do
     body
     |> to_snake_case()
@@ -212,6 +216,22 @@ defmodule Dwolla.Utils do
     |> Map.put(:dest_resource_id, dest_resource_id)
     |> Map.put(:source_funding_source_id, source_funding_source_id)
     |> Map.put(:can_cancel, can_cancel)
+  end
+
+  defp map_body(body, :beneficial_owner) do
+    body
+    |> to_snake_case()
+    |> Poison.Decode.transform(%{
+      as: %Dwolla.BeneficialOwner{
+        address: %Dwolla.Address{}
+      }
+    })
+  end
+
+  defp map_body(body, :beneficial_ownership) do
+    body
+    |> to_snake_case()
+    |> Poison.Decode.transform(%{as: %Dwolla.BeneficialOwnership{}})
   end
 
   defp map_body(body, :mass_payment) do

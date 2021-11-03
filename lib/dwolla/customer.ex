@@ -265,4 +265,57 @@ defmodule Dwolla.Customer do
     Dwolla.make_request_with_token(:get, endpoint, token)
     |> Utils.handle_resp(:transfer)
   end
+
+  @doc """
+  Creates a customer beneficial owner.
+  """
+  @spec create_beneficial_owner(token, id, params) ::
+          {:ok, location} | {:error, error}
+  def create_beneficial_owner(token, id, params) do
+    endpoint = @endpoint <> "/#{id}/beneficial-owners"
+
+    Dwolla.make_request_with_token(:post, endpoint, token, params)
+    |> Utils.handle_resp(:beneficial_owner)
+  end
+
+  @doc """
+  Lists a customer's beneficial owner.
+  """
+  @spec list_beneficial_owners(token, id) ::
+          {:ok, [Dwolla.BeneficialOwner.t()]} | {:error, error}
+  def list_beneficial_owners(token, id) do
+    endpoint = @endpoint <> "/#{id}/beneficial-owners"
+
+    Dwolla.make_request_with_token(:get, endpoint, token)
+    |> Utils.handle_resp(:beneficial_owner)
+  end
+
+  @doc """
+  Update a customer's beneficial ownership status.
+  """
+  @spec certify_beneficial_ownership(token, id) ::
+          {:ok, Dwolla.BeneficialOwnership.t()} | {:error, error}
+  def certify_beneficial_ownership(token, id) do
+    endpoint = @endpoint <> "/#{id}/beneficial-ownership"
+
+    Dwolla.make_request_with_token(
+      :post,
+      endpoint,
+      token,
+      %{status: "certified"}
+    )
+    |> Utils.handle_resp(:beneficial_ownership)
+  end
+
+  @doc """
+  Get a customer's beneficial ownership status.
+  """
+  @spec get_beneficial_ownership(token, id) ::
+          {:ok, Dwolla.BeneficialOwnership.t()} | {:error, error}
+  def get_beneficial_ownership(token, id) do
+    endpoint = @endpoint <> "/#{id}/beneficial-ownership"
+
+    Dwolla.make_request_with_token(:get, endpoint, token)
+    |> Utils.handle_resp(:beneficial_ownership)
+  end
 end
