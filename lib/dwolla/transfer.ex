@@ -9,6 +9,8 @@ defmodule Dwolla.Transfer do
             created: nil,
             status: nil,
             amount: nil,
+            correlation_id: nil,
+            individual_ach_id: nil,
             metadata: nil,
             source_resource: nil,
             source_resource_id: nil,
@@ -23,6 +25,8 @@ defmodule Dwolla.Transfer do
           # "pending" | "processed" | "cancelled" | "failed" | "reclaimed"
           status: String.t(),
           amount: Dwolla.Amount.t(),
+          correlation_id: String.t(),
+          individual_ach_id: String.t(),
           metadata: Dwolla.Transfer.Metadata.t(),
           source_resource: String.t(),
           source_resource_id: String.t(),
