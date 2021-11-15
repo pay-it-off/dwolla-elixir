@@ -267,6 +267,26 @@ defmodule Dwolla.Customer do
   end
 
   @doc """
+  Retrieves a customer's mass payments. Results paginated.
+
+  Parameters
+  ```
+  %{startDate: "2017-04-01", endDate: "2017-04-30", correlationId: "123"}
+  ```
+  """
+  @spec mass_payments(token, id, params) :: {:ok, [Dwolla.Transfer.t()]} | {:error, error}
+  def mass_payments(token, id, params \\ %{}) do
+    endpoint =
+      case Map.keys(params) do
+        [] -> @endpoint <> "/#{id}/mass-payments"
+        _ -> @endpoint <> "/#{id}/mass-payments?" <> Utils.encode_params(params)
+      end
+
+    Dwolla.make_request_with_token(:get, endpoint, token)
+    |> Utils.handle_resp(:mass_payment)
+  end
+
+  @doc """
   Creates a customer beneficial owner.
   """
   @spec create_beneficial_owner(token, id, params) ::
