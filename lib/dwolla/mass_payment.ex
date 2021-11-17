@@ -20,7 +20,7 @@ defmodule Dwolla.MassPayment do
           created: String.t(),
           # "deferred" | "pending" | "processing" | "complete" |
           status: String.t(),
-          metadata: Map.t(),
+          metadata: map(),
           funding_transfer_id: String.t(),
           source_funding_source_id: String.t(),
           correlation_id: String.t(),
@@ -54,7 +54,7 @@ defmodule Dwolla.MassPayment do
             dest_resource: String.t(),
             dest_resource_id: String.t(),
             amount: Dwolla.Amount.t(),
-            metadata: Map.t(),
+            metadata: map(),
             status: String.t(),
             # "failed" | "pending" | "success"
             errors: Dwolla.Errors.t(),
