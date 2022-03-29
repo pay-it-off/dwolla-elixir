@@ -15,6 +15,7 @@ defmodule Dwolla.Transfer do
             source_resource: nil,
             source_resource_id: nil,
             source_funding_source_id: nil,
+            destination_funding_source_id: nil,
             dest_resource: nil,
             dest_resource_id: nil,
             can_cancel: false
@@ -31,6 +32,7 @@ defmodule Dwolla.Transfer do
           source_resource: String.t(),
           source_resource_id: String.t(),
           source_funding_source_id: String.t(),
+          destination_funding_source_id: String.t(),
           dest_resource: String.t(),
           dest_resource_id: String.t(),
           can_cancel: boolean

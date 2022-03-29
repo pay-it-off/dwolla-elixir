@@ -212,6 +212,7 @@ defmodule Dwolla.Utils do
     [source_resource, source_resource_id] = get_transfer_source_from_body(body)
     [dest_resource, dest_resource_id] = get_transfer_destination_from_body(body)
     source_funding_source_id = get_transfer_source_funding_source_from_body(body)
+    destination_funding_source_id = get_transfer_destination_funding_source_from_body(body)
 
     transfer
     |> Map.put(:source_resource, source_resource)
@@ -219,6 +220,7 @@ defmodule Dwolla.Utils do
     |> Map.put(:dest_resource, dest_resource)
     |> Map.put(:dest_resource_id, dest_resource_id)
     |> Map.put(:source_funding_source_id, source_funding_source_id)
+    |> Map.put(:destination_funding_source_id, destination_funding_source_id)
     |> Map.put(:can_cancel, can_cancel)
   end
 
@@ -397,6 +399,18 @@ defmodule Dwolla.Utils do
   end
 
   defp get_transfer_source_funding_source_from_body(_) do
+    nil
+  end
+
+  defp get_transfer_destination_funding_source_from_body(
+         %{"_links" => %{"destination-funding-source" => %{"href" => url}}} = _body
+       ) do
+    url
+    |> String.split("/")
+    |> List.last()
+  end
+
+  defp get_transfer_destination_funding_source_from_body(_) do
     nil
   end
 
