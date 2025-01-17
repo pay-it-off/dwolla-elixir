@@ -42,7 +42,7 @@ defmodule Dwolla.EventTest do
       body = http_response_body(:event, :list)
 
       Bypass.expect(bypass, fn conn ->
-        assert "limit=50&offset=100" == conn.query_string
+        assert "offset=100&limit=50" == conn.query_string
         Conn.resp(conn, 200, body)
       end)
 

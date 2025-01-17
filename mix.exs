@@ -30,8 +30,8 @@ defmodule Dwolla.Mixfile do
 
   defp deps do
     [
-      {:httpoison, "~> 1.5"},
-      {:poison, "~> 5.0"},
+      {:httpoison, "~> 2.2"},
+      {:poison, "~> 6.0"},
       {:recase, "~> 0.6"},
       {:bypass, "~> 2.1.0", only: [:test]},
       {:credo, "~> 1.4", only: [:dev], runtime: false},
